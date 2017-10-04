@@ -13,7 +13,7 @@ const DEV = env.NODE_ENV === 'development';
 var options = {
   entry: {
     content: path.join(__dirname, 'src', 'js', 'content', 'content_script.js'),
-    background: path.join(__dirname, 'src', 'js', 'background.js')
+    background: path.join(__dirname, 'src', 'js', 'background', 'background.js')
   },
   output: {
     path: path.join(__dirname, 'dist'),

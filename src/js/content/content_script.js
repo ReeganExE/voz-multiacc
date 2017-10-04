@@ -1,5 +1,6 @@
 import gen from './menu-gen';
 import { closest } from '../utils';
+import * as api from './api';
 
 function appendScript() {
   var c = `document.querySelector('strong a[href^="member.php"]').id = 'multiacc'; vbmenu_register('multiacc')`;
@@ -23,6 +24,7 @@ function html() {
 
     if (tr.matches('.add-new')) {
       console.log(tr);
+      api.prepareToAdd().then(() => location.reload());
     }
   }, false);
 

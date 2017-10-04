@@ -4,7 +4,7 @@ export default function generate() {
   <table cellpadding="4" cellspacing="1" border="0">
   <tbody>
       <tr><td class="thead">Voz Multi Account</td></tr>
-      <tr><td class="vbmenu_option vbmenu_option_alink"><a href="#"><em>Add account</em></a></td></tr>
+      <tr class="add-new"><td class="vbmenu_option vbmenu_option_alink"><a href="#"><em>Add account</em></a></td></tr>
   </tbody></table>
   </div>
   `;

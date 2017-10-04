@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener((msg, sender, respond) => {
 
 chrome.cookies.onChanged.addListener(info => {
   const {cause, cookie, removed} = info;
-  if (cause === 'expired' && cookie.name === 'vfsessionhash') {
-    
+  if (cookie.name === 'vfsessionhash') {
+    console.log(info);
   }
 });

@@ -27,7 +27,6 @@ async function html() {
     const tr = closest(e.target, 'tr', 'div');
 
     if (tr.matches('.add-new')) {
-      console.log(tr);
       api.prepareToAdd(userName).then(() => location.reload());
     } else {
       const accountId = tr.getAttribute('account');

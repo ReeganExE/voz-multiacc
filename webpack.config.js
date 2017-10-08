@@ -1,13 +1,9 @@
-var webpack = require('webpack'),
-  path = require('path'),
-  fileSystem = require('fs'),
-  WriteFilePlugin = require('write-file-webpack-plugin');
-
+const webpack = require('webpack');
+const path = require('path');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const env = process.env;
-
 const DEV = env.NODE_ENV === 'development';
 
 var options = {
@@ -28,11 +24,6 @@ var options = {
     // expose and write the allowed env vars on the compiled bundle
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'background.html'),
-      filename: 'background.html',
-      chunks: ['background']
     }),
     new CopyWebpackPlugin([
       {

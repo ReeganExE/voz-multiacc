@@ -1,23 +1,31 @@
 ﻿{
-    "manifest_version": 2,
-    "name": "Voz Multi Account",
-    "version": "1.0",
-    "description": "Voz Multi Account",
-    "content_scripts": [{
-        "js": ["content.js"],
-        "matches": ["*://*.vozforums.com/*"],
-        "run_at": "document_end"
-    }],
-    "background": {
-        "page": "background.html"
-    },
-    "permissions": [
-      "cookies",
-      "*://*.vozforums.com/*"
-    ],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-    "icons": {
-        "48": "sharieye_04.png",
-        "128": "sharieye_04.png"
+  "manifest_version": 2,
+  "name": "Voz Multi Account",
+  "version": "1.0",
+  "description": "Voz Multi Account",
+  "content_scripts": [
+    {
+      "js": [
+        "content.js"
+      ],
+      "matches": [
+        "*://*.vozforums.com/*"
+      ],
+      "run_at": "document_end"
     }
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "storage",
+    "cookies",
+    "*://*.vozforums.com/*"
+  ],
+  "minimum_chrome_version": "55",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "icons": {
+    "48": "sharieye_04.png",
+    "128": "sharieye_04.png"
+  }
 }

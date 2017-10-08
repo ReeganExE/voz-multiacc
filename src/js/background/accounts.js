@@ -1,13 +1,23 @@
+import browser from 'webextension-polyfill';
+import _ from 'lodash';
+
 export function getAll() {
-  const items = [];
+  return browser.storage.local.get({ accounts: [] }).then(r => r.accounts);
+}
 
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
+export async function getById(userId) {
+  const accounts = await getAll();
+  return _.find(accounts, { id: userId });
+}
 
-    if (key.startsWith('hihi_')) {
-      items.push(JSON.parse(localStorage.getItem(key)));
-    }
+export async function save(user) {
+  const accounts = await getAll();
+  const existingUser = _.find(accounts, { id: user.id });
+  if (existingUser) {
+    Object.assign(existingUser, user);
+  } else {
+    accounts.push(user);
   }
 
-  return items;
+  return browser.storage.local.set({ accounts });
 }

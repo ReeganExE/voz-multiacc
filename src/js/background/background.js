@@ -6,8 +6,6 @@ import * as accounts from './accounts';
 
 const url = 'https://vozforums.com';
 
-window.browser = browser;
-
 chrome.runtime.onMessage.addListener((msg, sender, respond) => {
   if (msg.type === types.PREAPRE_ADD) {
     const name = msg.payload;
@@ -40,6 +38,10 @@ chrome.cookies.onChanged.addListener(async info => {
   }
 });
 
+/**
+ * Save or update current session then switch to the new selected one.
+ * @param {Object} message Request message from content script
+ */
 async function changeAccount({ payload }) {
   const { toAccount, currentUserName } = payload;
   const account = await accounts.getById(toAccount);
@@ -56,8 +58,10 @@ async function changeAccount({ payload }) {
 }
 
 /**
+ * Save current cookies to storage.
  *
- * @param {String} name
+ * @param {String} name User's name
+ * @param {Boolean} remove Remove current cookie
  */
 function saveUser(name, remove = true) {
   return browser.cookies.getAll({}).then(cookies => {

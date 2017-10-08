@@ -3,8 +3,13 @@ import { closest } from '../utils';
 import * as api from './api';
 
 const SELECTOR_ME = 'strong a[href^="member.php"]';
+const reload = () => location.reload();
 
-function appendScript(selector = SELECTOR_ME) {
+/**
+ * Execute `vbmenu_register` to register Switch menu.
+ * @param {String} selector
+ */
+function registerMenu(selector = SELECTOR_ME) {
   var c = `document.querySelector('${selector}').id = 'multiacc'; vbmenu_register('multiacc')`;
   var vs = document.getElementById('vl-script');
   if (vs) {
@@ -16,7 +21,10 @@ function appendScript(selector = SELECTOR_ME) {
   document.head.appendChild(vs);
 }
 
-async function html() {
+/**
+ * Generate Account menu items and handle click event.
+ */
+async function generateAccountsMenu() {
   const h = await gen();
   const menu = Object.assign(document.createElement('div'), { innerHTML: h });
   const me = document.querySelector(SELECTOR_ME);
@@ -27,24 +35,31 @@ async function html() {
     const tr = closest(e.target, 'tr', 'div');
 
     if (tr.matches('.add-new')) {
-      api.prepareToAdd(userName).then(() => location.reload());
+      // Save current session and create new one
+      api.newSession(userName).then(reload);
     } else {
+      // Switch account
       const accountId = tr.getAttribute('account');
-      api.changeToAccount({ toAccount: accountId, currentUserName: userName }).then(() => location.reload());
+      api.changeToAccount({ toAccount: accountId, currentUserName: userName }).then(reload);
     }
   }, false);
 
   document.querySelector('.vbmenu_popup').parentNode.appendChild(menu);
 }
 
+/**
+ * Checks for user is logged in.
+ * And creates a Switch button.
+ */
 function checkForLoggedIn() {
   const loginBtn = document.querySelector('form[action^="login.php"] input.button');
-  if (loginBtn) {
+
+  if (loginBtn) { // Have login button
     const swAccount = Object.assign(document.createElement('a'), {href: '#', textContent: 'Switch', id: 'multiacc'});
     loginBtn.parentNode.appendChild(swAccount);
     return '#multiacc';
   }
 }
 
-html();
-appendScript(checkForLoggedIn());
+generateAccountsMenu();
+registerMenu(checkForLoggedIn());

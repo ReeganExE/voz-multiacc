@@ -10,7 +10,7 @@ const PROD = env.NODE_ENV === 'production';
 
 var options = {
   entry: {
-    content: path.join(__dirname, 'src', 'js', 'content', 'content_script.js'),
+    content: path.join(__dirname, 'src', 'js', 'content', 'content-script.js'),
     background: path.join(__dirname, 'src', 'js', 'background', 'background.js')
   },
   output: {

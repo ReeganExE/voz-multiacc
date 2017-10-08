@@ -22,6 +22,24 @@ chrome.runtime.onMessage.addListener((msg, sender, respond) => {
   }
 });
 
+chrome.cookies.onChanged.addListener(async info => {
+  const {cause, cookie, removed} = info;
+  // vfsessionhash expired_overwrite removed
+  if (cookie.name === 'vfsessionhash' && removed && cause === 'expired_overwrite') {
+    // user logs out
+    accounts.removeByHash(cookie.value);
+  }
+
+  if (cookie.name === 'vfsessionhash' && cause === 'explicit') { // New session
+    const vfuserid = await browser.cookies.get({ url, name: 'vfuserid' });
+
+    if (vfuserid) { // User has just logged in
+      const userName = await fetchUserName(vfuserid.value);
+      saveUser(userName, false); // Save without removing the current user
+    }
+  }
+});
+
 async function changeAccount({ payload }) {
   const { toAccount, currentUserName } = payload;
   const account = await accounts.getById(toAccount);
@@ -30,8 +48,9 @@ async function changeAccount({ payload }) {
     return;
   }
 
-  await saveUser(currentUserName);
+  await saveUser(currentUserName); // Stash current user
 
+  // Flush new selection user to the cookie
   const { session } = account;
   session.forEach(cookie => browser.cookies.set(Object.assign({url}, cookie)));
 }
@@ -40,7 +59,7 @@ async function changeAccount({ payload }) {
  *
  * @param {String} name
  */
-function saveUser(name) {
+function saveUser(name, remove = true) {
   return browser.cookies.getAll({}).then(cookies => {
     let session = cookies.filter(a => a.httpOnly);
 
@@ -50,7 +69,7 @@ function saveUser(name) {
     const vfsessionhash = _.find(session, { name: 'vfsessionhash' });
 
     // Do Remove cookies
-    session.forEach(c => browser.cookies.remove({ name: c.name, url }));
+    remove && session.forEach(c => browser.cookies.remove({ name: c.name, url }));
 
     if (vfuserid) {
       return accounts.save({
@@ -63,9 +82,9 @@ function saveUser(name) {
   });
 }
 
-// chrome.cookies.onChanged.addListener(info => {
-//   const {cause, cookie, removed} = info;
-//   if (cookie.name === 'vfsessionhash') {
-//     console.log(info);
-//   }
-// });
+function fetchUserName(userId) {
+  return fetch('https://vozforums.com/member.php?u=' + userId)
+    .then(a => a.text())
+    .then(html => new DOMParser().parseFromString(html, 'text/html'))
+    .then(doc => doc.querySelector('#main_userinfo h1').textContent.trim());
+}

@@ -8,7 +8,7 @@ function template(accounts) {
   accounts = accounts.map(acc => `
     <tr class="change-acc" account="${acc.id}">
       <td class="vbmenu_option vbmenu_option_alink">
-        <a href="${acc.id}">${acc.name}</a></td></tr>`)
+        <a href="https://vozforums.com/member.php?u=${acc.id}">${acc.name}</a></td></tr>`)
     .join('\n');
 
   let html = `

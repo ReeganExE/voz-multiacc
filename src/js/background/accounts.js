@@ -21,3 +21,10 @@ export async function save(user) {
 
   return browser.storage.local.set({ accounts });
 }
+
+export async function removeByHash(shash) {
+  const accounts = await getAll();
+  const existingUser = _.find(accounts, { hash: shash });
+
+  return browser.storage.local.set({ accounts: _.without(accounts, existingUser) });
+}

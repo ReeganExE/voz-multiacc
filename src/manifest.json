@@ -3,6 +3,7 @@
   "name": "Voz Multi Account",
   "version": "1.0",
   "description": "Voz Multi Account",
+  "author": "Ninh Pham (ReeganExE)",
   "content_scripts": [
     {
       "js": [
@@ -25,7 +26,7 @@
   "minimum_chrome_version": "55",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
-    "48": "sharieye_04.png",
-    "128": "sharieye_04.png"
+    "48": "voz-multiacc.png",
+    "128": "voz-multiacc.png"
   }
 }

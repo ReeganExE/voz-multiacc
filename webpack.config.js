@@ -18,9 +18,7 @@ var options = {
     filename: '[name].js'
   },
   module: {
-    rules: [
-      // { test: /\.js$/, loader: "babel-loader", exclude: /node_modules/ }
-    ]
+    rules: []
   },
   plugins: [
     // expose and write the allowed env vars on the compiled bundle
@@ -32,7 +30,7 @@ var options = {
         from: path.join(__dirname, 'src', 'manifest.json')
       },
       {
-        from: path.join(__dirname, 'src', 'sharieye_04.png')
+        from: path.join(__dirname, 'src', 'voz-multiacc.png')
       }
     ])
   ].concat(DEV ? new WriteFilePlugin() : [])

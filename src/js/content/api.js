@@ -7,7 +7,7 @@ export function prepareToAdd(userName) {
 }
 
 export function getAllAccounts() {
-  return browser.runtime.sendMessage({ type: types.GET_ACCOUNTS });
+  return new Promise(resolve => chrome.runtime.sendMessage({ type: types.GET_ACCOUNTS }, resolve));
 }
 
 export function changeToAccount({ toAccount, currentUserName }) {

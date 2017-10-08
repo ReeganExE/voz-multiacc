@@ -3,15 +3,11 @@ import browser from 'webextension-polyfill';
 import * as types from '../types';
 
 export function prepareToAdd(userName) {
-  return new Promise(resolve => {
-    chrome.runtime.sendMessage({ type: types.PREAPRE_ADD, payload: userName }, resolve);
-  });
+  return browser.runtime.sendMessage({ type: types.PREAPRE_ADD, payload: userName });
 }
 
 export function getAllAccounts() {
-  return new Promise(resolve => {
-    chrome.runtime.sendMessage({ type: types.GET_ACCOUNTS }, resolve);
-  });
+  return browser.runtime.sendMessage({ type: types.GET_ACCOUNTS });
 }
 
 export function changeToAccount({ toAccount, currentUserName }) {
